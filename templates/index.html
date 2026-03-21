@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SecureGuard</title>
+    <style>
+        body { font-family: Arial; max-width: 900px; margin: 40px auto; padding: 20px; background: #f5f7ff; }
+        h1 { color: #0d1b3e; }
+        .subtitle { color: #475569; margin-bottom: 30px; }
+        textarea { width: 100%; height: 200px; padding: 12px; font-family: monospace; font-size: 13px; border: 1px solid #e2e8f0; border-radius: 8px; background: #1e293b; color: #e2e8f0; }
+        button { background: #0891b2; color: white; padding: 12px 30px; border: none; border-radius: 8px; font-size: 15px; cursor: pointer; margin-top: 10px; }
+        button:hover { background: #0e7490; }
+        .score-box { padding: 20px; border-radius: 10px; margin: 20px 0; text-align: center; }
+        .CRITICAL { background: #fef2f2; border: 2px solid #dc2626; }
+        .HIGH { background: #fff7ed; border: 2px solid #ea580c; }
+        .MEDIUM { background: #fffbeb; border: 2px solid #d97706; }
+        .SAFE { background: #f0fdf4; border: 2px solid #16a34a; }
+        .score-num { font-size: 48px; font-weight: bold; }
+        .score-label { font-size: 18px; font-weight: bold; margin-top: 5px; }
+        .finding { background: white; border-left: 4px solid #dc2626; padding: 15px; margin: 10px 0; border-radius: 0 8px 8px 0; }
+        .finding.HIGH { border-left-color: #ea580c; }
+        .finding.MEDIUM { border-left-color: #d97706; }
+        .badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; color: white; }
+        .badge-CRITICAL { background: #dc2626; }
+        .badge-HIGH { background: #ea580c; }
+        .badge-MEDIUM { background: #d97706; }
+        .section { background: white; padding: 20px; border-radius: 10px; margin: 15px 0; border: 1px solid #e2e8f0; }
+        .section h3 { color: #0d1b3e; margin-top: 0; }
+        pre { background: #1e293b; color: #e2e8f0; padding: 15px; border-radius: 8px; overflow-x: auto; font-size: 13px; }
+        .stats { display: flex; gap: 15px; margin: 10px 0; }
+        .stat { background: #f1f5f9; padding: 10px 20px; border-radius: 8px; text-align: center; }
+        .stat-num { font-size: 24px; font-weight: bold; color: #0d1b3e; }
+        .stat-label { font-size: 12px; color: #64748b; }
+    </style>
+</head>
+<body>
+    <h1>SecureGuard</h1>
+    <p class="subtitle">AI-Powered Secure Code Analyzer — OWASP Top 10</p>
+    <form method="POST">
+        <textarea name="code" placeholder="Yahan apna code paste karo...">{{ code }}</textarea>
+        <br>
+        <button type="submit">Scan Karo</button>
+    </form>
+    {% if result %}
+    <div class="score-box {{ result.risk.level.split()[0] }}">
+        <div class="score-num">{{ result.risk.score }}<span style="font-size:24px">/100</span></div>
+        <div class="score-label">{{ result.risk.level }}</div>
+    </div>
+    <div class="stats">
+        <div class="stat"><div class="stat-num">{{ result.risk.total_findings }}</div><div class="stat-label">Total</div></div>
+        <div class="stat"><div class="stat-num" style="color:#dc2626">{{ result.risk.critical }}</div><div class="stat-label">Critical</div></div>
+        <div class="stat"><div class="stat-num" style="color:#ea580c">{{ result.risk.high }}</div><div class="stat-label">High</div></div>
+        <div class="stat"><div class="stat-num" style="color:#d97706">{{ result.risk.medium }}</div><div class="stat-label">Medium</div></div>
+    </div>
+    <div class="section">
+        <h3>Vulnerabilities Found</h3>
+        {% for f in result.findings %}
+        <div class="finding {{ f.severity }}">
+            <span class="badge badge-{{ f.severity }}">{{ f.severity }}</span>
+            <strong style="margin-left:10px">{{ f.name }}</strong>
+            <span style="color:#64748b; font-size:13px"> — {{ f.cwe }}</span>
+            <p style="margin:8px 0 4px">{{ f.message }}</p>
+            <p style="margin:4px 0; color:#16a34a; font-size:13px">Fix: {{ f.fix }}</p>
+            <p style="margin:4px 0; color:#64748b; font-size:12px">Lines: {{ f.line_numbers }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="section">
+        <h3>AI Explanation</h3>
+        <p>{{ result.explanation }}</p>
+    </div>
+    <div class="section">
+        <h3>Fixed Code</h3>
+        <pre>{{ result.fixed_code }}</pre>
+    </div>
+    {% endif %}
+</body>
+</html>

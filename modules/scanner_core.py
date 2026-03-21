@@ -1,3 +1,4 @@
+cat > scanner_core.py << 'EOF'
 import sys
 sys.path.insert(0, '.')
 from modules.sast_engine import scan_code
@@ -14,3 +15,4 @@ def run_scan(code):
         "explanation": ai_result["explanation"],
         "fixed_code": ai_result["fixed_code"]
     }
+EOF
