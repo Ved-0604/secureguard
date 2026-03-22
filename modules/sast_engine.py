@@ -8,8 +8,8 @@ RULES = [
         "severity": "CRITICAL",
         "cwe": "CWE-798",
         "owasp": "A02 - Cryptographic Failures",
-        "message": "Password seedha code mein likha hai!",
-        "fix": "os.environ.get('PASSWORD') use karo"
+        "message": "Password is hardcoded directly in source code!",
+        "fix": "Use environment variables: os.environ.get('PASSWORD')"
     },
     {
         "id": "SG002",
@@ -18,8 +18,8 @@ RULES = [
         "severity": "CRITICAL",
         "cwe": "CWE-89",
         "owasp": "A03 - Injection",
-        "message": "SQL query mein string concatenation hai!",
-        "fix": "Parameterized queries use karo: cursor.execute('...WHERE id=?', (id,))"
+        "message": "SQL query built with string concatenation — vulnerable to injection!",
+        "fix": "Use parameterized queries: cursor.execute('...WHERE id=?', (id,))"
     },
     {
         "id": "SG003",
@@ -28,8 +28,8 @@ RULES = [
         "severity": "HIGH",
         "cwe": "CWE-95",
         "owasp": "A03 - Injection",
-        "message": "eval() se user input run ho sakta hai!",
-        "fix": "eval() hatao. ast.literal_eval() use karo"
+        "message": "eval() can execute arbitrary code from user input!",
+        "fix": "Remove eval(). Use ast.literal_eval() for safe parsing."
     },
     {
         "id": "SG004",
@@ -38,8 +38,8 @@ RULES = [
         "severity": "CRITICAL",
         "cwe": "CWE-78",
         "owasp": "A03 - Injection",
-        "message": "exec() se arbitrary code execute ho sakta hai!",
-        "fix": "exec() bilkul mat use karo"
+        "message": "exec() allows arbitrary code execution — extremely dangerous!",
+        "fix": "Never use exec() with user-controlled input."
     },
     {
         "id": "SG005",
@@ -48,8 +48,8 @@ RULES = [
         "severity": "CRITICAL",
         "cwe": "CWE-78",
         "owasp": "A03 - Injection",
-        "message": "subprocess mein user input OS command injection de sakta hai!",
-        "fix": "shell=False rakho aur input sanitize karo"
+        "message": "subprocess with user input can lead to OS command injection!",
+        "fix": "Use shell=False and sanitize all inputs."
     },
     {
         "id": "SG006",
@@ -58,8 +58,8 @@ RULES = [
         "severity": "MEDIUM",
         "cwe": "CWE-547",
         "owasp": "A05 - Security Misconfiguration",
-        "message": "IP address hardcoded hai!",
-        "fix": "os.environ.get('SERVER_IP') use karo"
+        "message": "IP address is hardcoded in source code!",
+        "fix": "Use environment variables: os.environ.get('SERVER_IP')"
     },
     {
         "id": "SG007",
@@ -68,8 +68,8 @@ RULES = [
         "severity": "HIGH",
         "cwe": "CWE-327",
         "owasp": "A02 - Cryptographic Failures",
-        "message": "MD5/SHA1 weak hashing algorithms hain!",
-        "fix": "bcrypt ya sha256 use karo passwords ke liye"
+        "message": "MD5/SHA1 are weak and broken hashing algorithms!",
+        "fix": "Use bcrypt or sha256 for password hashing."
     },
     {
         "id": "SG008",
@@ -78,8 +78,8 @@ RULES = [
         "severity": "MEDIUM",
         "cwe": "CWE-94",
         "owasp": "A05 - Security Misconfiguration",
-        "message": "Debug mode production mein ON hai!",
-        "fix": "debug=False karo production mein"
+        "message": "Debug mode is enabled — never use in production!",
+        "fix": "Set debug=False in production environment."
     },
     {
         "id": "SG009",
@@ -88,8 +88,8 @@ RULES = [
         "severity": "MEDIUM",
         "cwe": "CWE-338",
         "owasp": "A02 - Cryptographic Failures",
-        "message": "random module security ke liye safe nahi hai!",
-        "fix": "secrets module use karo: secrets.token_hex()"
+        "message": "random module is not cryptographically secure!",
+        "fix": "Use secrets module: secrets.token_hex()"
     },
     {
         "id": "SG010",
@@ -98,8 +98,8 @@ RULES = [
         "severity": "HIGH",
         "cwe": "CWE-79",
         "owasp": "A03 - Injection",
-        "message": "render_template_string XSS ke liye vulnerable ho sakta hai!",
-        "fix": "render_template() use karo aur input escape karo"
+        "message": "render_template_string can be vulnerable to XSS attacks!",
+        "fix": "Use render_template() and escape all user inputs."
     },
 ]
 
