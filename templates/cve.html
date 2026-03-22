@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CVE Playground — SecureGuard</title>
+    <style>
+        body { font-family: Arial; max-width: 900px; margin: 40px auto; padding: 20px; background: #f5f7ff; }
+        h1 { color: #0d1b3e; }
+        .nav { margin-bottom: 30px; }
+        .nav a { color: #0891b2; text-decoration: none; margin-right: 20px; }
+        .cve-card { background: white; border-radius: 10px; padding: 20px; margin: 15px 0; border: 1px solid #e2e8f0; border-left: 5px solid #dc2626; }
+        .cve-card.HIGH { border-left-color: #ea580c; }
+        .badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; color: white; margin-right: 8px; }
+        .badge-CRITICAL { background: #dc2626; }
+        .badge-HIGH { background: #ea580c; }
+        .cve-id { font-size: 13px; color: #64748b; }
+        .cve-name { font-size: 20px; font-weight: bold; color: #0d1b3e; margin: 8px 0; }
+        .cve-desc { color: #475569; margin: 10px 0; }
+        .btn { display: inline-block; background: #0891b2; color: white; padding: 8px 20px; border-radius: 6px; text-decoration: none; font-size: 14px; margin-top: 10px; }
+        .owasp-tag { background: #f1f5f9; color: #475569; padding: 3px 10px; border-radius: 20px; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <a href="/">← Scanner</a>
+        <a href="/cve">CVE Playground</a>
+    </div>
+    <h1>🔬 CVE Playground</h1>
+    <p style="color:#475569">Real-world vulnerabilities — vulnerable code, exploit, aur fix. Interview preparation ke liye perfect.</p>
+    {% for cve in cves %}
+    <div class="cve-card {{ cve.severity }}">
+        <span class="badge badge-{{ cve.severity }}">{{ cve.severity }}</span>
+        <span class="owasp-tag">{{ cve.owasp }}</span>
+        <div class="cve-id">{{ cve.id }} — {{ cve.cwe }}</div>
+        <div class="cve-name">{{ cve.name }}</div>
+        <div class="cve-desc">{{ cve.description }}</div>
+        <a href="/cve/{{ cve.id }}" class="btn">Details Dekho →</a>
+    </div>
+    {% endfor %}
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ cve.name }} — SecureGuard</title>
+    <style>
+        body { font-family: Arial; max-width: 900px; margin: 40px auto; padding: 20px; background: #f5f7ff; }
+        .nav a { color: #0891b2; text-decoration: none; margin-right: 20px; }
+        .badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 13px; font-weight: bold; color: white; }
+        .badge-CRITICAL { background: #dc2626; }
+        .badge-HIGH { background: #ea580c; }
+        h1 { color: #0d1b3e; margin: 15px 0 5px; }
+        .meta { color: #64748b; font-size: 14px; margin-bottom: 20px; }
+        .section { background: white; border-radius: 10px; padding: 20px; margin: 15px 0; border: 1px solid #e2e8f0; }
+        .section h3 { color: #0d1b3e; margin-top: 0; }
+        pre { background: #1e293b; color: #e2e8f0; padding: 15px; border-radius: 8px; font-size: 13px; overflow-x: auto; }
+        .exploit { background: #fef2f2; border-radius: 8px; padding: 15px; color: #7f1d1d; }
+        .fix-box { background: #f0fdf4; border-radius: 8px; padding: 15px; color: #14532d; }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <a href="/">← Scanner</a>
+        <a href="/cve">← CVE List</a>
+    </div>
+    <span class="badge badge-{{ cve.severity }}">{{ cve.severity }}</span>
+    <h1>{{ cve.name }}</h1>
+    <div class="meta">{{ cve.id }} — {{ cve.cwe }} — {{ cve.owasp }}</div>
+
+    <div class="section">
+        <h3>📖 Kya tha yeh?</h3>
+        <p>{{ cve.description }}</p>
+    </div>
+
+    <div class="section">
+        <h3>💀 Vulnerable Code</h3>
+        <pre>{{ cve.vulnerable_code }}</pre>
+    </div>
+
+    <div class="section">
+        <h3>⚡ Exploit Kaise Kaam Karta Tha?</h3>
+        <div class="exploit">{{ cve.how_exploit }}</div>
+    </div>
+
+    <div class="section">
+        <h3>🔧 Fix</h3>
+        <div class="fix-box">{{ cve.fix }}</div>
+        <pre style="margin-top:10px">{{ cve.fixed_code }}</pre>
+    </div>
+</body>
+</html>

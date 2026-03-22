@@ -30,15 +30,16 @@
         .stat { background: #f1f5f9; padding: 10px 20px; border-radius: 8px; text-align: center; }
         .stat-num { font-size: 24px; font-weight: bold; color: #0d1b3e; }
         .stat-label { font-size: 12px; color: #64748b; }
+        .placeholder { color: #64748b; font-style: italic; }
     </style>
 </head>
 <body>
-    <h1>SecureGuard</h1>
+    <h1>🛡️ SecureGuard</h1>
     <p class="subtitle">AI-Powered Secure Code Analyzer — OWASP Top 10</p>
     <form method="POST">
-        <textarea name="code" placeholder="Yahan apna code paste karo...">{{ code }}</textarea>
+        <textarea name="code" placeholder="Apna Python code yahan paste karo...">{% if code and code.strip() %}{{ code }}{% endif %}</textarea>
         <br>
-        <button type="submit">Scan Karo</button>
+        <button type="submit">🔍 Scan Karo</button>
     </form>
     {% if result %}
     <div class="score-box {{ result.risk.level.split()[0] }}">
@@ -52,24 +53,24 @@
         <div class="stat"><div class="stat-num" style="color:#d97706">{{ result.risk.medium }}</div><div class="stat-label">Medium</div></div>
     </div>
     <div class="section">
-        <h3>Vulnerabilities Found</h3>
+        <h3>🚨 Vulnerabilities Found</h3>
         {% for f in result.findings %}
         <div class="finding {{ f.severity }}">
             <span class="badge badge-{{ f.severity }}">{{ f.severity }}</span>
             <strong style="margin-left:10px">{{ f.name }}</strong>
             <span style="color:#64748b; font-size:13px"> — {{ f.cwe }}</span>
             <p style="margin:8px 0 4px">{{ f.message }}</p>
-            <p style="margin:4px 0; color:#16a34a; font-size:13px">Fix: {{ f.fix }}</p>
-            <p style="margin:4px 0; color:#64748b; font-size:12px">Lines: {{ f.line_numbers }}</p>
+            <p style="margin:4px 0; color:#16a34a; font-size:13px">✅ Fix: {{ f.fix }}</p>
+            <p style="margin:4px 0; color:#64748b; font-size:12px">📍 Lines: {{ f.line_numbers }}</p>
         </div>
         {% endfor %}
     </div>
     <div class="section">
-        <h3>AI Explanation</h3>
+        <h3>🤖 AI Explanation</h3>
         <p>{{ result.explanation }}</p>
     </div>
     <div class="section">
-        <h3>Fixed Code</h3>
+        <h3>🔧 Fixed Code</h3>
         <pre>{{ result.fixed_code }}</pre>
     </div>
     {% endif %}
