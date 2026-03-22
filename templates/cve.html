@@ -24,8 +24,8 @@
         <a href="/">← Scanner</a>
         <a href="/cve">CVE Playground</a>
     </div>
-    <h1>🔬 CVE Playground</h1>
-    <p style="color:#475569">Real-world vulnerabilities — vulnerable code, exploit, aur fix. Interview preparation ke liye perfect.</p>
+    <h1>CVE Playground</h1>
+    <p style="color:#475569;margin-bottom:20px">Real-world vulnerabilities — vulnerable code, exploit walkthrough, and fix. Perfect for interview preparation.</p>
     {% for cve in cves %}
     <div class="cve-card {{ cve.severity }}">
         <span class="badge badge-{{ cve.severity }}">{{ cve.severity }}</span>
@@ -33,7 +33,7 @@
         <div class="cve-id">{{ cve.id }} — {{ cve.cwe }}</div>
         <div class="cve-name">{{ cve.name }}</div>
         <div class="cve-desc">{{ cve.description }}</div>
-        <a href="/cve/{{ cve.id }}" class="btn">Details Dekho →</a>
+        <a href="/cve/{{ cve.id }}" class="btn">View Details →</a>
     </div>
     {% endfor %}
 </body>

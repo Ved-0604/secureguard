@@ -25,24 +25,20 @@
     <span class="badge badge-{{ cve.severity }}">{{ cve.severity }}</span>
     <h1>{{ cve.name }}</h1>
     <div class="meta">{{ cve.id }} — {{ cve.cwe }} — {{ cve.owasp }}</div>
-
     <div class="section">
-        <h3>📖 Kya tha yeh?</h3>
+        <h3>What was this vulnerability?</h3>
         <p>{{ cve.description }}</p>
     </div>
-
     <div class="section">
-        <h3>💀 Vulnerable Code</h3>
+        <h3>Vulnerable Code</h3>
         <pre>{{ cve.vulnerable_code }}</pre>
     </div>
-
     <div class="section">
-        <h3>⚡ Exploit Kaise Kaam Karta Tha?</h3>
+        <h3>How did the exploit work?</h3>
         <div class="exploit">{{ cve.how_exploit }}</div>
     </div>
-
     <div class="section">
-        <h3>🔧 Fix</h3>
+        <h3>Fix</h3>
         <div class="fix-box">{{ cve.fix }}</div>
         <pre style="margin-top:10px">{{ cve.fixed_code }}</pre>
     </div>
